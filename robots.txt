@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://annamalmberg2.github.io/ainnova-host-i-skogen/sitemap.xml
