@@ -27,3 +27,7 @@ Installationsgränssnittet beror på webbläsare och operativsystem. Knappen erb
 Mobilvy med större text och hög kontrast: ingen horisontell överrinning vid 375 CSS-pixlar. Engelska texter, språkbyte, bokningsankare och installationshjälp kontrollerade i webbläsare. Offlineläsning verifierad genom att stoppa den lokala servern och ladda om sidan. JavaScript syntaxkontrollerat med Node. Detta är ingen formell WCAG-certifiering.
 
 © 2026 AiNNOVA AB. Fotografier: Anna Malmberg. Ingen generell återanvändningslicens ges för text eller bilder.
+
+## Teknisk granskning
+
+Se [AUDIT.md](AUDIT.md) för verifierade kontroller, rättningar och kvarvarande begränsningar. Kör `node tests/check.mjs` samt `node --check app.js` och `node --check sw.js` före publicering.

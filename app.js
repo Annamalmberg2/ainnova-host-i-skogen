@@ -22,8 +22,9 @@
   catch(error){if(error.name!=='AbortError')status.textContent=msg('Kopiera länken från adressfältet för att dela.','Copy the link from your address bar to share.');}
  });
  if('serviceWorker' in navigator){
-  navigator.serviceWorker.register('./sw.js').then(async reg=>{
+  navigator.serviceWorker.register('./sw.js', { updateViaCache: 'none' }).then(async reg=>{
    await navigator.serviceWorker.ready;
+   if (reg.waiting) status.textContent=msg('En uppdatering är redo. Stäng sidans flikar och öppna den igen för den senaste versionen.','An update is ready. Close this site’s tabs and reopen it for the latest version.');
    const note=document.getElementById('offline-note');
    note.textContent=msg('Sidan är sparad för offlineläsning på den här enheten. Externa länkar och kontakt kräver anslutning.','This page is saved for offline reading on this device. External links and contacting Anna require a connection.');
   }).catch(()=>{status.textContent=msg('Sidan fungerar, men kunde inte sparas offline.','The page works, but could not be saved offline.');});

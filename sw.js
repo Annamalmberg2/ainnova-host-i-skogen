@@ -1,11 +1,28 @@
 'use strict';
-const CACHE='ainnova-forest-v1';
-const ROOT=new URL('./',self.location.href).href;
-const FILES=['./','index.html','en.html','style.css','app.js','manifest.webmanifest','assets/skog.jpg','assets/sjon.jpg','assets/skord.jpg','assets/kantareller.jpg','assets/mossa.jpg','assets/icon-180.png','assets/icon-192.png','assets/icon-512.png','assets/icon.svg','assets/favicon.ico'];
-self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(FILES.map(path=>new URL(path,ROOT).href))).then(()=>self.skipWaiting())));
-self.addEventListener('activate',event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith('ainnova-forest-')&&k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
-self.addEventListener('fetch',event=>{
- const url=new URL(event.request.url);
- if(event.request.method!=='GET'||!url.href.startsWith(ROOT)||url.origin!==self.location.origin)return;
- event.respondWith(fetch(event.request).then(response=>{if(response.ok&&response.type==='basic'){const copy=response.clone();event.waitUntil(caches.open(CACHE).then(cache=>cache.put(event.request,copy)));}return response;}).catch(async()=>{const cached=await caches.match(event.request);if(cached)return cached;if(event.request.mode==='navigate'){return await caches.match(new URL(url.pathname.endsWith('en.html')?'en.html':'index.html',ROOT).href);}return Response.error();}));
+// Each scope owns its cache; other GitHub Pages apps share this origin.
+const ROOT = new URL('./', self.location.href).href;
+const PREFIX = `ainnova:${new URL(ROOT).pathname}:`;
+const CACHE = PREFIX + 'v2';
+const FILES = ['./', 'index.html', 'en.html', 'style.css', 'app.js', 'manifest.webmanifest', 'assets/skog.jpg', 'assets/sjon.jpg', 'assets/skord.jpg', 'assets/kantareller.jpg', 'assets/mossa.jpg', 'assets/icon-180.png', 'assets/icon-192.png', 'assets/icon-512.png', 'assets/icon.svg', 'assets/favicon.ico'];
+const URLS = FILES.map(path => new URL(path, ROOT).href);
+const KNOWN = new Set(URLS);
+self.addEventListener('install', event => {
+  // Activation waits for existing tabs to close: no mixed releases mid-visit.
+  event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(URLS)));
+});
+self.addEventListener('activate', event => {
+  event.waitUntil(caches.keys().then(keys => Promise.all(
+    keys.filter(key => key.startsWith(PREFIX) && key !== CACHE).map(key => caches.delete(key))
+  )).then(() => self.clients.claim()));
+});
+self.addEventListener('fetch', event => {
+  const url = new URL(event.request.url);
+  url.search = ''; // Sharing/marketing parameters must not create extra cache entries.
+  if (event.request.method !== 'GET' || !KNOWN.has(url.href)) return;
+  // A complete, immutable release: fast on weak connections and available offline.
+  event.respondWith(caches.open(CACHE).then(async cache => {
+    const saved = await cache.match(url.href);
+    if (saved) return saved;
+    return fetch(event.request);
+  }));
 });
