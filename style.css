@@ -45,3 +45,5 @@ body,.access-bar a,.access-bar button{font-family:var(--sans)}
 #price-count{font-weight:600;margin-block:16px}
 .adventure-photos{grid-template-columns:1fr 1fr}.adventure-photos .sunset{grid-column:1/-1;aspect-ratio:2.8/1}
 @media(max-width:700px){.adventure-photos .sunset{aspect-ratio:2.4/1}}
+
+.more-from{border-top:1px solid var(--line);padding-block:48px}.more-from h2{font-size:2rem}.more-from ul{display:flex;flex-wrap:wrap;gap:12px 36px;list-style:none;padding:0;margin:24px 0 0}.more-from a{display:inline-flex;align-items:center;gap:12px;min-height:44px;text-underline-offset:5px}
