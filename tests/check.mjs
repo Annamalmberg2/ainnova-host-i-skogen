@@ -24,9 +24,9 @@ const scope='https://example.test/ainnova-host-i-skogen/';
 const foreign='ainnova:/another-site/:v1';cacheStore.set(foreign,new Map());cacheStore.set('ainnova:/ainnova-host-i-skogen/:obsolete',new Map());
 const caches={keys:async()=>[...cacheStore.keys()],delete:async k=>cacheStore.delete(k),open:async k=>{
  if(!cacheStore.has(k))cacheStore.set(k,new Map());const entries=cacheStore.get(k);
- return {addAll:async urls=>{for(const u of urls){assert(existsSync(new URL(u===scope?'index.html':u.slice(scope.length),root)));entries.set(u,{url:u,ok:true});}},match:async u=>entries.get(u)};
+ return {addAll:async urls=>{for(const request of urls){const u=typeof request==='string'?request:request.url;assert(existsSync(new URL(u===scope?'index.html':u.slice(scope.length),root)));entries.set(u,{url:u,ok:true});}},match:async u=>entries.get(u)};
 }};
-vm.runInNewContext(read('sw.js'),{URL,Set,caches,fetch:async()=>{network++;throw Error('offline');},self:{location:{href:scope+'sw.js'},clients:{claim:async()=>{}},addEventListener:(name,fn)=>listeners[name]=fn}});
+vm.runInNewContext(read('sw.js'),{URL,Set,Request,caches,fetch:async()=>{network++;throw Error('offline');},self:{location:{href:scope+'sw.js'},clients:{claim:async()=>{}},addEventListener:(name,fn)=>listeners[name]=fn}});
 async function lifecycle(name){let done;listeners[name]({waitUntil:p=>done=p});await done;}
 await lifecycle('install');await lifecycle('activate');assert(cacheStore.has(foreign),'Must preserve other apps');assert(!cacheStore.has('ainnova:/ainnova-host-i-skogen/:obsolete'));
 async function request(path,method='GET'){let response;listeners.fetch({request:{url:new URL(path,scope).href,method},respondWith:p=>response=p});return response?await response:undefined;}

@@ -31,3 +31,13 @@ Mobilvy med större text och hög kontrast: ingen horisontell överrinning vid 3
 ## Teknisk granskning
 
 Se [AUDIT.md](AUDIT.md) för verifierade kontroller, rättningar och kvarvarande begränsningar. Kör `node tests/check.mjs` samt `node --check app.js` och `node --check sw.js` före publicering.
+
+## Paddling och gemensam prislista · 30 september 2026
+
+Paddlingssektionen finns på båda språken. Bilderna kommer från användarens tidigare WordPress-sida och är sparade lokalt utan EXIF-metadata. Gamla sommartider och ett historiskt kajakpris har inte förts över som aktuella löften; paddlingens pris och upplägg bekräftas vid bokning.
+
+`prices.js` läser den publika Google Apps Script-adress som användaren angav. Endast kategorierna `Rådgivning & Utbildning`, `Alltid`, `Standard` och `Övrigt` visas. Ändra `ALLOWED` för att återanvända samma prisflöde på en annan sida med ett annat urval. Prisdata hämtas när sektionen närmar sig skärmen och kan hämtas på nytt med Uppdatera priser. Informationen i flödet redigeras vid källan; denna sida skriver aldrig till kalkylbladet.
+
+Det tillkommer en extern läsanslutning till Google (`script.google.com` och dess omdirigering `script.googleusercontent.com`). Begäran skickas utan credentials och utan referer. Google ser som vid andra nätverksanrop besökarens IP-adress. Inga nya analysverktyg eller externa typsnitt har lagts till.
+
+Senaste lyckade urval sparas lokalt och visas med hämtningstid om ny hämtning misslyckas. Ingen gammal kopia påstås vara aktuell. Tolv sekunders timeout, validering av svar, tomt resultat och lagringsfel hanteras. Kalkylbladstext läggs in med `textContent`; endast HTTP/HTTPS-länkar accepteras. På engelska sidan anges att källans prislista är på svenska och korten har `lang="sv"`.

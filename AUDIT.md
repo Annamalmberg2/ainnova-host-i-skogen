@@ -28,3 +28,11 @@ GitHub Pages kontrollerar HTTP-säkerhetsheaders. CSP i HTML stöder inte `frame
 Offline fungerar efter lyckad förladdning och så länge webbläsaren behåller lagringen. Webbläsaren kan rensa lagring. Externa länkar och kontakt med Anna kräver anslutning.
 
 Vid framtida ändringar måste cacheversionen i sw.js ökas tillsammans med innehållet. Befintliga besökare kan behöva stänga webbplatsens flikar och öppna igen för att få den nya versionen. GitHub Pages är en extern driftstjänst, inte en evighetsgaranti.
+
+## Tillägg · 30 september 2026
+
+Paddling har lagts till i båda språkversionerna. Den tidigare policyn om enbart egna anslutningar har utökats med två specifika Google-domäner för användarens publika prisflöde. Inga externa skript tillåts. Livedata är avsiktligt separerade från service workerns versionscache: nya priser ska kunna hämtas utan ny webbpublicering. Service workerns version har höjts till v4 och de två nya bilderna samt priskoden förladdas för offlinebruk.
+
+Prislistan använder ett kategorifilter, schemakontroll, textnoder i stället för inmatad HTML, protokollkontroll av länkar, timeout, återförsök och märkt reservvisning. Den kan inte läsas första gången offline. Själva kalkylbladet har inte ändrats.
+
+Verifierat: prisflödet laddas från Google i webbläsaren utan konsolfel; kategorin Rådgivning & Utbildning visar åtta tjänster. Engelsk mobilvy vid 375 CSS-pixlar saknar horisontell överrinning. `node tests/prices.mjs` kontrollerar kategoriurval, textvisning, blockerade javascript-länkar, sparat reservläge, misslyckad hämtning och spärrad lokal lagring. Förladdning av nya offlineversioner använder cache: reload för att undvika gamla filer från HTTP-cachen.
