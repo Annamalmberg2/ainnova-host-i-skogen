@@ -54,3 +54,9 @@ Verifierat: prisflödet laddas från Google i webbläsaren utan konsolfel; kateg
 - Meny/ankare, bildtexter och svenska/engelska innehållet kontrollerade. Äldre aktivitetsankare bevarade. Katalogen är stängd initialt för att behålla fokus på Äventyret.
 - Renderad textkontroll i desktop mörkt tema och engelsk mobil (375 px), ljust/mörkt samt större text: inga kontrastfel eller horisontell overflow. Bildöverlägg verifieras separat med befintligt worst-case-test. Lägsta uppmätta textkontrast utanför hero: 5,98:1.
 - Struktur/offline-, prisflödes-, kontrast- och temapreferenstester passerar. Inte en full WCAG-certifiering.
+
+## 2026-09-30 — Huspalett, panoramabild och tydligt katalogurval
+- Bakgrund, text, kortytor och gröna accenter följer användarens AiNNOVA-färgfil i ljust/mörkt tema; systemfontstacken från Förklara AI används. Ljus gul kampanjyta och mörka fotopaneler behåller särskilda kontrastfärger.
+- Solnedgången visas som panorama (2,8:1 dator, 2,4:1 mobil), med tyngdpunkten vid 62 % för att beskära mer himmel än vatten. Originalfilen bevaras.
+- Ny livehämtning bekräftar 46 tjänster/11 kategorier. Katalogräknare visar totalsumma eller aktivt urval; filtertest verifierar båda lägena.
+- Visuell granskning av panorama och båda teman. Renderad textkontrast utanför hero: inga fel, lägst 5,68:1 ljust / 5,98:1 mörkt. Befintliga tester passerar.

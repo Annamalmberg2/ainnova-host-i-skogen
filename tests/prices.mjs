@@ -13,7 +13,7 @@ class Element {
 const source=readFileSync(new URL('../prices.js',import.meta.url),'utf8');
 const data={categories:[{name:'Unrelated',services:[{tjanst:'Excluded',pris:'1'}]},{name:'Alltid',services:[{tjanst:'<img onerror=alert(1)>',pris:'0 kr',beskrivning:'<script>bad</script>',lank:'javascript:alert(1)'},{tjanst:'Safe',pris:'100 kr',lank:'https://ainnova.se/kontakt'}]}]};
 async function scenario({fail=false,cached=null,storageThrows=false,feed=data}={}){
- const elements=Object.fromEntries(['prices-status','price-results','price-category','price-refresh','prislista','adventure-price-status','hero-price','booking-price'].map(id=>[id,new Element(id==='price-category'?'select':'div')]));
+ const elements=Object.fromEntries(['prices-status','price-count','price-results','price-category','price-refresh','prislista','adventure-price-status','hero-price','booking-price'].map(id=>[id,new Element(id==='price-category'?'select':'div')]));
  const controls=new Element();let stored;const jobs=[];
  const context={URL,Date,Intl,AbortController,Option:class extends Element{constructor(label,value){super('option');this.textContent=label;this.value=value;}},document:{documentElement:{lang:'sv'},getElementById:id=>elements[id],querySelector:()=>controls,querySelectorAll:()=>[elements['hero-price'],elements['booking-price']],createElement:tag=>new Element(tag)},window:{},localStorage:{getItem:()=>{if(storageThrows)throw Error();return cached?JSON.stringify(cached):null;},setItem:(k,v)=>{if(storageThrows)throw Error();stored=JSON.parse(v);}},setTimeout:()=>1,clearTimeout:()=>{},fetch:async()=>{if(fail)throw Error('offline');return {ok:true,json:async()=>feed};}};
  vm.runInNewContext(source,context);await new Promise(r=>setImmediate(r));return {elements,stored};
@@ -41,3 +41,7 @@ assert.equal(run.elements['price-results'].children.length,1,'Filter selects one
 run.elements['price-category'].value='all';run.elements['price-category'].listeners.change();
 assert.equal(run.elements['price-results'].children.length,2,'All categories can be restored');
 console.log('PASS: full catalogue and category filtering.');
+
+assert.match(run.elements['price-count'].textContent,/Hela prislistan: 3 tjänster i 2 kategorier/);
+run.elements['price-category'].value='Alltid';run.elements['price-category'].listeners.change();
+assert.match(run.elements['price-count'].textContent,/Visar 2 av 3 tjänster/);

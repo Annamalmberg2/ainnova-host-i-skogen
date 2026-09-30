@@ -23,6 +23,8 @@
  function render(){
   results.replaceChildren();
   const chosen=categories.filter(c=>select.value==='all'||c.name===select.value);
+  const count=document.getElementById('price-count');
+  if(count){const total=categories.reduce((n,c)=>n+c.services.length,0);const shown=chosen.reduce((n,c)=>n+c.services.length,0);count.textContent=select.value==='all'?t(`Hela prislistan: ${total} tjänster i ${categories.length} kategorier.`,`Full catalogue: ${total} services in ${categories.length} categories.`):t(`Visar ${shown} av ${total} tjänster. Välj Alla kategorier för hela prislistan.`,`Showing ${shown} of ${total} services. Choose All categories for the full catalogue.`);}
   for(const category of chosen){
    const group=el('section',null,'service-group');
    group.append(el('h3',categoryLabel(category.name)));

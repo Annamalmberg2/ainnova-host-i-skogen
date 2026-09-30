@@ -23,7 +23,7 @@ assert.doesNotMatch(css,/\.high-contrast/,'Readability must not depend on a cont
 for(const file of ['index.html','en.html'])assert.doesNotMatch(readFileSync(new URL('../'+file,import.meta.url),'utf8'),/id="contrast"/);
 console.log('PASS: default palette contrast, worst-case photo overlays, scoped card colors, no contrast-mode dependency.');
 
-check('Dark body',hex('#f1eee3'),hex('#15221d'));
-check('Dark surface',hex('#f1eee3'),hex('#20342b'));
-check('Dark labels',hex('#e4c987'),hex('#15221d'));
+check('Dark body',hex('#ece4d4'),hex('#1b1915'));
+check('Dark surface',hex('#ece4d4'),hex('#232019'));
+check('Dark labels',hex('#b0a794'),hex('#1b1915'));
 console.log('PASS: dark theme text and surface contrast.');
