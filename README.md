@@ -46,3 +46,5 @@ Senaste lyckade urval sparas lokalt och visas med hämtningstid om ny hämtning 
 Samma permanenta GitHub Pages-adress och app-id behålls. Båda språken presenterar nu ett gemensamt fyratimmarserbjudande med val av aktivitet, inklusive promenad, paddling, svamp eller möte inne/online. Vinteraktiviteter beskrivs som möjliga upplägg att komma överens om.
 
 `prices.js` matchar tjänsten `Äventyret` i kategorin `Rådgivning & Utbildning` (skiftlägesokänsligt, Unicode NFC). Grundpriset visas i hero och bokningskort från samma källa som prislistan. Flödet hämtas vid sidladdning; sparade värden märks med hämtningstid och visas vid nätfel. Utan tillgänglig rad används tidigare visat pris med uppmaning att bekräfta med Anna. Fyratimmarsupplägg och tillägg 1 000 kr/person är fortfarande sidinnehåll, inte kalkylbladsfält. Ändra matchningen om tjänstens namn byts. Kalkylbladet ändras aldrig av sidan.
+
+Grundkontrast (2026-09-30): ingen kontrastknapp behövs. Gemensamma kort ärver sin sektions textfärg. Fototexter har mörkt överlägg/fast bakgrund. Kör även `node tests/contrast.mjs` vid färgändringar och kontrollera renderade textfärger i webbläsaren.

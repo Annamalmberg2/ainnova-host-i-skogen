@@ -41,3 +41,10 @@ Verifierat: prisflödet laddas från Google i webbläsaren utan konsolfel; kateg
 - Svensk/engelsk start, årstidsalternativ och ursprungsberättelse, metadata och appnamn uppdaterade; URL/appidentitet bevarad.
 - Grundpris från Äventyret-raden synkroniseras till två platser. Tester täcker ändrat pris, sparad fallback och saknad rad, utöver tidigare säkerhets-/offlinetester.
 - Lokal webbläsarkontroll: priset hämtas från Google-flödet; ingen horisontell overflow på desktop eller engelsk mobilvy (375 px). Visuell granskning av starten.
+
+## 2026-09-30 — Grundkontrast utan specialläge
+- Kontrastknapp och specialläge borttagna. Gemensamma `.three`-kort ärver sektionsfärgen; ljus text/guld avgränsas till mörk takeaway-sektion.
+- Fotoöverlägg förstärkt på dator/mobil. Bildtexter har ogenomskinlig mörk bakgrund.
+- Webbläsarmätning av synliga textnoder utanför hero: 180 svenska (desktop), 175 engelska (375 px), 176 engelska med större text. Inga under respektive 4,5:1/3:1-gräns; lägsta uppmätta kontrast 5,26:1. Ingen horisontell overflow.
+- Hero verifieras separat med konservativ beräkning: ljusast möjliga (vita) bildpixel bakom alla definierade överlägg. Brödtext >=4,5:1, stor gul rubrik >=3:1.
+- `node tests/contrast.mjs` bevakar grundpalett, fotoöverlägg och kortens färgansvar. Tidigare struktur-, offline- och prisflödestester passerar. Detta är en riktad kontrastkontroll, inte en fullständig WCAG-certifiering.

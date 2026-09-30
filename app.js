@@ -4,7 +4,7 @@
  const msg=(sv,eng)=>en?eng:sv;
  const status=document.querySelector('#status');
  const read=(key)=>{try{return localStorage.getItem(key)==='true';}catch{return false;}};
- for(const [id,cls] of [['text-size','large-text'],['contrast','high-contrast']]){
+ for(const [id,cls] of [['text-size','large-text']]){
   const button=document.getElementById(id);button.hidden=false;
   const apply=(on)=>{document.documentElement.classList.toggle(cls,on);button.setAttribute('aria-pressed',String(on));};
   apply(read('ainnova-'+cls));
