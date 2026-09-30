@@ -36,3 +36,8 @@ Paddling har lagts till i båda språkversionerna. Den tidigare policyn om enbar
 Prislistan använder ett kategorifilter, schemakontroll, textnoder i stället för inmatad HTML, protokollkontroll av länkar, timeout, återförsök och märkt reservvisning. Den kan inte läsas första gången offline. Själva kalkylbladet har inte ändrats.
 
 Verifierat: prisflödet laddas från Google i webbläsaren utan konsolfel; kategorin Rådgivning & Utbildning visar åtta tjänster. Engelsk mobilvy vid 375 CSS-pixlar saknar horisontell överrinning. `node tests/prices.mjs` kontrollerar kategoriurval, textvisning, blockerade javascript-länkar, sparat reservläge, misslyckad hämtning och spärrad lokal lagring. Förladdning av nya offlineversioner använder cache: reload för att undvika gamla filer från HTTP-cachen.
+
+## 2026-09-30 — Äventyret året runt
+- Svensk/engelsk start, årstidsalternativ och ursprungsberättelse, metadata och appnamn uppdaterade; URL/appidentitet bevarad.
+- Grundpris från Äventyret-raden synkroniseras till två platser. Tester täcker ändrat pris, sparad fallback och saknad rad, utöver tidigare säkerhets-/offlinetester.
+- Lokal webbläsarkontroll: priset hämtas från Google-flödet; ingen horisontell overflow på desktop eller engelsk mobilvy (375 px). Visuell granskning av starten.

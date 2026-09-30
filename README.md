@@ -41,3 +41,8 @@ Paddlingssektionen finns på båda språken. Bilderna kommer från användarens 
 Det tillkommer en extern läsanslutning till Google (`script.google.com` och dess omdirigering `script.googleusercontent.com`). Begäran skickas utan credentials och utan referer. Google ser som vid andra nätverksanrop besökarens IP-adress. Inga nya analysverktyg eller externa typsnitt har lagts till.
 
 Senaste lyckade urval sparas lokalt och visas med hämtningstid om ny hämtning misslyckas. Ingen gammal kopia påstås vara aktuell. Tolv sekunders timeout, validering av svar, tomt resultat och lagringsfel hanteras. Kalkylbladstext läggs in med `textContent`; endast HTTP/HTTPS-länkar accepteras. På engelska sidan anges att källans prislista är på svenska och korten har `lang="sv"`.
+
+## Äventyret — året runt (2026-09-30)
+Samma permanenta GitHub Pages-adress och app-id behålls. Båda språken presenterar nu ett gemensamt fyratimmarserbjudande med val av aktivitet, inklusive promenad, paddling, svamp eller möte inne/online. Vinteraktiviteter beskrivs som möjliga upplägg att komma överens om.
+
+`prices.js` matchar tjänsten `Äventyret` i kategorin `Rådgivning & Utbildning` (skiftlägesokänsligt, Unicode NFC). Grundpriset visas i hero och bokningskort från samma källa som prislistan. Flödet hämtas vid sidladdning; sparade värden märks med hämtningstid och visas vid nätfel. Utan tillgänglig rad används tidigare visat pris med uppmaning att bekräfta med Anna. Fyratimmarsupplägg och tillägg 1 000 kr/person är fortfarande sidinnehåll, inte kalkylbladsfält. Ändra matchningen om tjänstens namn byts. Kalkylbladet ändras aldrig av sidan.

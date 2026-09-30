@@ -36,13 +36,22 @@
    group.append(list);results.append(group);
   }
  }
+ function syncAdventure(stale=false){
+  const service=categories.find(c=>c.name==='Rådgivning & Utbildning')?.services.find(s=>s.tjanst.normalize('NFC').toLocaleLowerCase('sv-SE')==='äventyret');
+  const note=document.getElementById('adventure-price-status');
+  if(!note)return;
+  if(service){
+   for(const node of document.querySelectorAll('[data-adventure-price]')){node.textContent=service.pris;node.lang='sv';}
+   note.textContent=(stale?t('Sparat grundpris från ','Saved base price from '):t('Grundpris hämtat från kalkylbladet: ','Base price fetched from the spreadsheet: '))+timeLabel()+t('. Pris och upplägg bekräftas vid bokning.','. Price and arrangements confirmed when booking.');
+  }else note.textContent=t('Äventyret kunde inte hittas i prislistan. Visar tidigare grundpris; bekräfta med Anna.','The Adventure could not be found in the price list. Showing the previous base price; please confirm with Anna.');
+ }
  function adopt(data,time){
   categories=validate(data);fetchedAt=time;
   const previous=select.value;
   select.replaceChildren(new Option(t('Alla i urvalet','All selected categories'),'all'));
   for(const category of categories)select.add(new Option(en?labels[category.name]:category.name,category.name));
   if([...select.options].some(o=>o.value===previous))select.value=previous;
-  document.querySelector('.price-controls').hidden=false;render();
+  document.querySelector('.price-controls').hidden=false;render();syncAdventure(true);
  }
  function timeLabel(){return new Intl.DateTimeFormat(en?'en-GB':'sv-SE',{dateStyle:'medium',timeStyle:'short'}).format(new Date(fetchedAt));}
  async function load(){
@@ -52,16 +61,17 @@
   try{
    const response=await fetch(API,{signal:controller.signal,credentials:'omit',referrerPolicy:'no-referrer',cache:'no-store'});
    if(!response.ok)throw Error('Price request failed');
-   const data=await response.json();adopt(data,Date.now());
+   const data=await response.json();adopt(data,Date.now());syncAdventure();
    try{localStorage.setItem(KEY,JSON.stringify({categories,fetchedAt}));}catch{}
    status.textContent=t('Hämtat från den gemensamma prislistan: ','Fetched from the shared price list: ')+timeLabel()+'.';
   }catch{
+   if(categories.length)syncAdventure(true);
    status.textContent=categories.length?t('Kunde inte hämta nya priser. Visar sparad prislista från ','Could not fetch new prices. Showing the saved list from ')+timeLabel()+t('. Bekräfta aktuellt pris med Anna.','. Confirm the current price with Anna.'):t('Prislistan går inte att hämta just nu. Försök igen eller kontakta Anna för aktuella priser.','The price list is unavailable. Try again or contact Anna for current prices.');
    document.querySelector('.price-controls').hidden=false;select.disabled=!categories.length;
   }finally{clearTimeout(timer);running=false;refresh.disabled=false;select.disabled=!categories.length;results.setAttribute('aria-busy','false');}
  }
  select.addEventListener('change',render);refresh.addEventListener('click',load);
  try{const cached=JSON.parse(localStorage.getItem(KEY));if(cached&&Number.isFinite(cached.fetchedAt)&&cached.fetchedAt>0&&cached.fetchedAt<=Date.now())adopt(cached,cached.fetchedAt);}catch{}
- // Loading at the section keeps the first screen fast; only the public feed is requested.
- if('IntersectionObserver' in window){const observer=new IntersectionObserver(entries=>{if(entries.some(e=>e.isIntersecting)){observer.disconnect();load();}},{rootMargin:'300px'});observer.observe(document.getElementById('prislista'));}else load();
+ // The shared offer price is visible in the hero, so refresh on page load.
+ load();
 })();
