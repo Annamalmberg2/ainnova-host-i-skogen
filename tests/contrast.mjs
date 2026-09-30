@@ -22,3 +22,8 @@ assert.match(css,/(?<![\w.-])\.three p\{color:inherit;/,'Shared cards must inher
 assert.doesNotMatch(css,/\.high-contrast/,'Readability must not depend on a contrast mode');
 for(const file of ['index.html','en.html'])assert.doesNotMatch(readFileSync(new URL('../'+file,import.meta.url),'utf8'),/id="contrast"/);
 console.log('PASS: default palette contrast, worst-case photo overlays, scoped card colors, no contrast-mode dependency.');
+
+check('Dark body',hex('#f1eee3'),hex('#15221d'));
+check('Dark surface',hex('#f1eee3'),hex('#20342b'));
+check('Dark labels',hex('#e4c987'),hex('#15221d'));
+console.log('PASS: dark theme text and surface contrast.');

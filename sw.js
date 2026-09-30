@@ -2,8 +2,8 @@
 // Each scope owns its cache; other GitHub Pages apps share this origin.
 const ROOT = new URL('./', self.location.href).href;
 const PREFIX = `ainnova:${new URL(ROOT).pathname}:`;
-const CACHE = PREFIX + 'v6';
-const FILES = ['./', 'index.html', 'en.html', 'style.css', 'app.js', 'prices.js', 'assets/paddling.jpg', 'assets/kvallsljus.jpg', 'manifest.webmanifest', 'assets/skog.jpg', 'assets/sjon.jpg', 'assets/skord.jpg', 'assets/kantareller.jpg', 'assets/mossa.jpg', 'assets/icon-180.png', 'assets/icon-192.png', 'assets/icon-512.png', 'assets/icon.svg', 'assets/favicon.ico'];
+const CACHE = PREFIX + 'v7';
+const FILES = ['./', 'index.html', 'en.html', 'style.css', 'app.js', 'theme.js', 'prices.js', 'assets/paddling.jpg', 'assets/kvallsljus.jpg', 'manifest.webmanifest', 'assets/skog.jpg', 'assets/sjon.jpg', 'assets/skord.jpg', 'assets/kantareller.jpg', 'assets/mossa.jpg', 'assets/icon-180.png', 'assets/icon-192.png', 'assets/icon-512.png', 'assets/icon.svg', 'assets/favicon.ico'];
 const URLS = FILES.map(path => new URL(path, ROOT).href);
 const KNOWN = new Set(URLS);
 self.addEventListener('install', event => {

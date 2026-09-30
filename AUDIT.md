@@ -48,3 +48,9 @@ Verifierat: prisflödet laddas från Google i webbläsaren utan konsolfel; kateg
 - Webbläsarmätning av synliga textnoder utanför hero: 180 svenska (desktop), 175 engelska (375 px), 176 engelska med större text. Inga under respektive 4,5:1/3:1-gräns; lägsta uppmätta kontrast 5,26:1. Ingen horisontell overflow.
 - Hero verifieras separat med konservativ beräkning: ljusast möjliga (vita) bildpixel bakom alla definierade överlägg. Brödtext >=4,5:1, stor gul rubrik >=3:1.
 - `node tests/contrast.mjs` bevakar grundpalett, fotoöverlägg och kortens färgansvar. Tidigare struktur-, offline- och prisflödestester passerar. Detta är en riktad kontrastkontroll, inte en fullständig WCAG-certifiering.
+
+## 2026-09-30 — Helhet, full katalog och två teman
+- Jämförde alla tjänstenamn i delade kalkylbladets CSV med det publicerade flödet: 46/46 (trimmande blanksteg). Browser visar 11 kategorier, 46 kort; Webb & E-handel ger 3 kort.
+- Meny/ankare, bildtexter och svenska/engelska innehållet kontrollerade. Äldre aktivitetsankare bevarade. Katalogen är stängd initialt för att behålla fokus på Äventyret.
+- Renderad textkontroll i desktop mörkt tema och engelsk mobil (375 px), ljust/mörkt samt större text: inga kontrastfel eller horisontell overflow. Bildöverlägg verifieras separat med befintligt worst-case-test. Lägsta uppmätta textkontrast utanför hero: 5,98:1.
+- Struktur/offline-, prisflödes-, kontrast- och temapreferenstester passerar. Inte en full WCAG-certifiering.

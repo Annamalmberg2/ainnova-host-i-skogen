@@ -1,8 +1,7 @@
 'use strict';
 (() => {
  const API='https://script.google.com/macros/s/AKfycby-8qO-v4bYVnwE42iMdmEQfCD1Orj1zGhWrKDZ_E43LywKapYWnT0216esSrTa3Yys/exec';
- const ALLOWED=['Rådgivning & Utbildning','Alltid','Standard','Övrigt'];
- const KEY='ainnova-forest-prices-v1';
+ const KEY='ainnova-adventure-prices-v2';
  const en=document.documentElement.lang==='en';
  const t=(sv,english)=>en?english:sv;
  const status=document.getElementById('prices-status');
@@ -11,11 +10,12 @@
  const refresh=document.getElementById('price-refresh');
  if(!results)return;
  let categories=[];let fetchedAt=null;let running=false;
- const labels={'Rådgivning & Utbildning':'Advice & training','Alltid':'General terms','Standard':'Standard services','Övrigt':'Other services'};
+ const labels={'Rådgivning & Utbildning':'Advice & training','Alltid':'General terms','Standard':'Standard services','Övrigt':'Other services','Företags-lösningar':'Business solutions','Starta eget företag':'Starting a business','Webb & E-handel':'Web & e-commerce','Kartor & automation':'Maps & automation','Special-designat med API':'Custom API solutions','Innehålls-skapande & Verktyg':'Content & tools','Extra':'Additional services'};
+ const categoryLabel=name=>en&&Object.prototype.hasOwnProperty.call(labels,name)?labels[name]:name;
  const str=value=>typeof value==='string'?value.trim().slice(0,4000):typeof value==='number'?String(value):'';
  function validate(data){
   if(!data||data.success===false||!Array.isArray(data.categories))throw Error('Invalid price feed');
-  const filtered=data.categories.filter(c=>c&&ALLOWED.includes(c.name)&&Array.isArray(c.services)).map(c=>({name:c.name,services:c.services.slice(0,100).filter(s=>s&&str(s.tjanst)&&str(s.pris)).map(s=>({tjanst:str(s.tjanst),pris:str(s.pris),beskrivning:str(s.beskrivning),lank:str(s.lank)}))})).filter(c=>c.services.length);
+  const filtered=data.categories.filter(c=>c&&str(c.name)&&Array.isArray(c.services)).map(c=>({name:str(c.name),services:c.services.filter(s=>s&&str(s.tjanst)&&str(s.pris)).map(s=>({tjanst:str(s.tjanst),pris:str(s.pris),beskrivning:str(s.beskrivning),lank:str(s.lank)}))})).filter(c=>c.services.length);
   if(!filtered.length)throw Error('Empty price feed');return filtered;
  }
  function el(tag,text,cls){const node=document.createElement(tag);if(text)node.textContent=text;if(cls)node.className=cls;return node;}
@@ -25,7 +25,7 @@
   const chosen=categories.filter(c=>select.value==='all'||c.name===select.value);
   for(const category of chosen){
    const group=el('section',null,'service-group');
-   group.append(el('h3',en?labels[category.name]:category.name));
+   group.append(el('h3',categoryLabel(category.name)));
    const list=el('div',null,'service-list');
    for(const service of category.services){
     const card=el('article',null,'service-item');card.lang='sv';
@@ -42,14 +42,14 @@
   if(!note)return;
   if(service){
    for(const node of document.querySelectorAll('[data-adventure-price]')){node.textContent=service.pris;node.lang='sv';}
-   note.textContent=(stale?t('Sparat grundpris från ','Saved base price from '):t('Grundpris hämtat från kalkylbladet: ','Base price fetched from the spreadsheet: '))+timeLabel()+t('. Pris och upplägg bekräftas vid bokning.','. Price and arrangements confirmed when booking.');
+   note.textContent=stale?t('Sparat pris från ','Saved price from ')+timeLabel()+t('. Bekräfta med Anna.','. Please confirm with Anna.'):t('Fyra timmar för en person.','Four hours for one person.');
   }else note.textContent=t('Äventyret kunde inte hittas i prislistan. Visar tidigare grundpris; bekräfta med Anna.','The Adventure could not be found in the price list. Showing the previous base price; please confirm with Anna.');
  }
  function adopt(data,time){
   categories=validate(data);fetchedAt=time;
   const previous=select.value;
-  select.replaceChildren(new Option(t('Alla i urvalet','All selected categories'),'all'));
-  for(const category of categories)select.add(new Option(en?labels[category.name]:category.name,category.name));
+  select.replaceChildren(new Option(t('Alla kategorier','All categories'),'all'));
+  for(const category of categories)select.add(new Option(categoryLabel(category.name),category.name));
   if([...select.options].some(o=>o.value===previous))select.value=previous;
   document.querySelector('.price-controls').hidden=false;render();syncAdventure(true);
  }
